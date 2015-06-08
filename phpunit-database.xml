@@ -1,0 +1,24 @@
+<phpunit
+  bootstrap="phpunit-bootstrap.php"
+>
+  <testsuites>
+    <testsuite>
+      <directory suffix="_test.inc.php">phpunit</directory>
+    </testsuite>
+  </testsuites>
+  <groups>
+    <include>
+      <group>database</group>
+    </include>
+  </groups>
+  <logging>
+    <log type="coverage-html" target="coverage-html" />
+  </logging>
+  <php>
+    <!-- enter your database credentials here -->
+    <var name="ELPHIN_MYSQL_HOST" value="localhost" />
+    <var name="ELPHIN_MYSQL_USER" value="elphin" />
+    <var name="ELPHIN_MYSQL_PASSWORD" value="elphin" />
+    <var name="ELPHIN_MYSQL_DATABASE" value="elphin" />
+  </php>
+</phpunit>

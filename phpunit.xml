@@ -1,0 +1,17 @@
+<phpunit
+  bootstrap="phpunit-bootstrap.php"
+>
+  <testsuites>
+    <testsuite>
+      <directory suffix="_test.inc.php">phpunit</directory>
+    </testsuite>
+  </testsuites>
+  <groups>
+    <exclude>
+      <group>database</group>
+    </exclude>
+  </groups>
+  <logging>
+    <log type="coverage-html" target="coverage-html" />
+  </logging>
+</phpunit>

@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<dataset>
+  <table name="t">
+    <column>t</column>
+    <column>s</column>
+    <column>b</column>
+    <row>
+      <value>2</value>
+      <value>b</value>
+      <value>0</value>
+    </row>
+  </table>
+</dataset>

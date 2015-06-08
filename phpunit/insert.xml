@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<dataset>
+  <table name="t">
+    <column>t</column>
+    <column>s</column>
+    <column>b</column>
+    <row>
+      <value>1</value>
+      <value>a</value>
+      <value>1</value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>b</value>
+      <value>0</value>
+    </row>
+    <row>
+      <value>3</value>
+      <value>c</value>
+      <value>0</value>
+    </row>
+    <row>
+      <value>4</value>
+      <value>d</value>
+      <value>1</value>
+    </row>
+    <row>
+      <value>5</value>
+      <null />
+      <value>1</value>
+    </row>
+  </table>
+</dataset>
