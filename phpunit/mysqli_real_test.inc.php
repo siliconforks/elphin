@@ -217,6 +217,26 @@ class mysqli_real_test extends PHPUnit_Extensions_Database_TestCase {
     $elphin_mysqli->select_single_value($sql);
   }
 
+  /**
+   * @group database
+   */
+  public function test_select_all_rows_hash() {
+    $mysqli = $this->get_mysqli();
+    $elphin_mysqli = new elphin_mysqli($mysqli);
+    $sql = 'SELECT * FROM `t` ORDER BY `t`';
+    $this->assertSame(array(1 => array('t' => '1', 's' => 'a', 'b' => '1'), 2 => array('t' => '2', 's' => 'b', 'b' => '0')), $elphin_mysqli->select_all_rows_hash($sql, 't'));
+  }
+
+  /**
+   * @group database
+   */
+  public function test_select_single_column_hash() {
+    $mysqli = $this->get_mysqli();
+    $elphin_mysqli = new elphin_mysqli($mysqli);
+    $sql = 'SELECT `t`, `s` FROM `t` ORDER BY `t`';
+    $this->assertSame(array(1 => 'a', 2 => 'b'), $elphin_mysqli->select_single_column_hash($sql));
+  }
+
   private function get_mysqli() {
     global $ELPHIN_MYSQL_HOST, $ELPHIN_MYSQL_USER, $ELPHIN_MYSQL_PASSWORD, $ELPHIN_MYSQL_DATABASE;
 

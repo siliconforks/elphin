@@ -186,6 +186,26 @@ class mysqli_mock_test extends PHPUnit_Framework_TestCase {
     $elphin_mysqli->select_single_value($sql);
   }
 
+  public function test_select_all_rows_hash() {
+    $mysqli = $this->get_mock_select_2_rows_mysqli();
+    $sql = 'SELECT * FROM `t`';
+    $mysqli->expects($this->once())
+           ->method('query')
+           ->with($this->equalTo($sql));
+    $elphin_mysqli = new elphin_mysqli($mysqli);
+    $this->assertSame(array(1 => array('a' => '1', 'b' => '2'), 3 => array('a' => '3', 'b' => '4')), $elphin_mysqli->select_all_rows_hash($sql, 'a'));
+  }
+
+  public function test_select_single_column_hash() {
+    $mysqli = $this->get_mock_select_2_rows_mysqli();
+    $sql = 'SELECT * FROM `t`';
+    $mysqli->expects($this->once())
+           ->method('query')
+           ->with($this->equalTo($sql));
+    $elphin_mysqli = new elphin_mysqli($mysqli);
+    $this->assertSame(array(1 => '2', 3 => '4'), $elphin_mysqli->select_single_column_hash($sql));
+  }
+
   private function get_mock_mysqli() {
     $mysqli = $this->getMockBuilder('stdClass')
                    ->setMethods(array('real_escape_string', 'query'))
@@ -233,7 +253,7 @@ class mysqli_mock_test extends PHPUnit_Framework_TestCase {
     $result->method('fetch_assoc')
            ->will($this->onConsecutiveCalls(array('a' => '1', 'b' => '2'), array('a' => '3', 'b' => '4'), NULL));
     $result->method('fetch_row')
-           ->will($this->onConsecutiveCalls(array('1'), array('3'), NULL));
+           ->will($this->onConsecutiveCalls(array('1', '2'), array('3', '4'), NULL));
     $mysqli = $this->getMockBuilder('stdClass')
                    ->setMethods(array('query'))
                    ->getMock();

@@ -230,6 +230,53 @@ class elphin_mysqli {
   }
 
   /**
+   * Returns all rows returned by an SQL query as an associative array.
+   * The result is an associative array of associative arrays, each representing
+   * one row.
+   * @param  string  $sql  the SQL query
+   * @param  string  $hash_key  the database column to use as the hash key
+   * @return  array  an associative array
+   */
+  public function select_all_rows_hash($sql, $hash_key) {
+    $mysqli = $this->mysqli;
+
+    $result = $mysqli->query($sql);
+    if (! $result) {
+      throw new elphin_mysqli_exception('Database query failed: ' . $mysqli->error, $mysqli->errno);
+    }
+    $rows = array();
+    while ($row = $result->fetch_assoc()) {
+      $rows[$row[$hash_key]] = $row;
+    }
+    $result->close();
+    return $rows;
+  }
+
+  /**
+   * Returns all values returned by an SQL query in an associative array.
+   * The SQL query must select exactly two columns - the first column is used as
+   * the hash key and the second column is used as the hash value.  (If it
+   * selects more than two columns, the remaining columns will be ignored.)
+   * The result is an associative array.
+   * @param  string  $sql  the SQL query
+   * @return  array  an associative array mapping one column to another
+   */
+  public function select_single_column_hash($sql) {
+    $mysqli = $this->mysqli;
+
+    $result = $mysqli->query($sql);
+    if (! $result) {
+      throw new elphin_mysqli_exception('Database query failed: ' . $mysqli->error, $mysqli->errno);
+    }
+    $rows = array();
+    while ($row = $result->fetch_row()) {
+      $rows[$row[0]] = $row[1];
+    }
+    $result->close();
+    return $rows;
+  }
+
+  /**
    * Quotes a value.
    * The value is escaped and surrounded with (single) quotes if necessary.
    * @param  mixed  $value  the value to quote
