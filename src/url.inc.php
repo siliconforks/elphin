@@ -44,7 +44,7 @@ function elphin_get_current_url() {
     return $request_uri;
   }
 
-  if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+  if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== '' && strtolower($_SERVER['HTTPS']) !== 'off') {
     $protocol = 'https://';
   }
   else {
