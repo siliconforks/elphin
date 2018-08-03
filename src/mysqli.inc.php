@@ -305,4 +305,25 @@ class elphin_mysqli {
       return '\'' . $escaped . '\'';
     }
   }
+
+  public function escape_for_pattern_match($value) {
+    static $search = NULL;
+    static $replace = NULL;
+
+    if ($search === NULL) {
+      $search = array(
+        '\\',
+        '_',
+        '%',
+      );
+    }
+    if ($replace === NULL) {
+      $replace = array(
+        '\\\\',
+        '\_',
+        '\%',
+      );
+    }
+    return str_replace($search, $replace, $value);
+  }
 }

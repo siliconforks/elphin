@@ -4,3 +4,9 @@ CREATE TABLE `t` (
  `b` TINYINT NOT NULL,
   PRIMARY KEY (`t`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `pattern` (
+ `pattern` INT NOT NULL AUTO_INCREMENT,
+ `s` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`pattern`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

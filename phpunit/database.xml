@@ -15,4 +15,32 @@
       <value>0</value>
     </row>
   </table>
+  <table name="pattern">
+    <column>pattern</column>
+    <column>s</column>
+    <row>
+      <value>1</value>
+      <value>50% off</value>
+    </row>
+    <row>
+      <value>2</value>
+      <value>50 dollars off</value>
+    </row>
+    <row>
+      <value>3</value>
+      <value>Use _underscores_ for _italics_</value>
+    </row>
+    <row>
+      <value>4</value>
+      <value>Use *asterisks* for *italics*</value>
+    </row>
+    <row>
+      <value>5</value>
+      <value>C:\Program Files</value>
+    </row>
+    <row>
+      <value>6</value>
+      <value>C:/Program Files</value>
+    </row>
+  </table>
 </dataset>

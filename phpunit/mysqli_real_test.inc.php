@@ -237,6 +237,31 @@ class mysqli_real_test extends PHPUnit_Extensions_Database_TestCase {
     $this->assertSame(array(1 => 'a', 2 => 'b'), $elphin_mysqli->select_single_column_hash($sql));
   }
 
+  /**
+   * @group database
+   */
+  public function test_pattern_match() {
+    $mysqli = $this->get_mysqli();
+    $elphin_mysqli = new elphin_mysqli($mysqli);
+
+    $sql = 'SELECT `pattern`, `s` FROM `pattern` WHERE `s` LIKE ' . $elphin_mysqli->quote('50% off') . ' ORDER BY `pattern`';
+    $this->assertSame(array(1 => '50% off', 2 => '50 dollars off'), $elphin_mysqli->select_single_column_hash($sql));
+    $sql = 'SELECT `pattern`, `s` FROM `pattern` WHERE `s` LIKE ' . $elphin_mysqli->quote($elphin_mysqli->escape_for_pattern_match('50% off')) . ' ORDER BY `pattern`';
+    $this->assertSame(array(1 => '50% off'), $elphin_mysqli->select_single_column_hash($sql));
+
+    $sql = 'SELECT `pattern`, `s` FROM `pattern` WHERE `s` LIKE ' . $elphin_mysqli->quote('%_italics_') . ' ORDER BY `pattern`';
+    $this->assertSame(array(3 => 'Use _underscores_ for _italics_', 4 => 'Use *asterisks* for *italics*'), $elphin_mysqli->select_single_column_hash($sql));
+    $sql = 'SELECT `pattern`, `s` FROM `pattern` WHERE `s` LIKE ' . $elphin_mysqli->quote('%' . $elphin_mysqli->escape_for_pattern_match('_italics_')) . ' ORDER BY `pattern`';
+    $this->assertSame(array(3 => 'Use _underscores_ for _italics_'), $elphin_mysqli->select_single_column_hash($sql));
+
+    $sql = 'SELECT `pattern`, `s` FROM `pattern` WHERE `s` LIKE ' . $elphin_mysqli->quote('C:%') . ' ORDER BY `pattern`';
+    $this->assertSame(array(5 => 'C:\Program Files', 6 => 'C:/Program Files'), $elphin_mysqli->select_single_column_hash($sql));
+    $sql = 'SELECT `pattern`, `s` FROM `pattern` WHERE `s` LIKE ' . $elphin_mysqli->quote('C:/%') . ' ORDER BY `pattern`';
+    $this->assertSame(array(6 => 'C:/Program Files'), $elphin_mysqli->select_single_column_hash($sql));
+    $sql = 'SELECT `pattern`, `s` FROM `pattern` WHERE `s` LIKE ' . $elphin_mysqli->quote($elphin_mysqli->escape_for_pattern_match('C:\\') . '%') . ' ORDER BY `pattern`';
+    $this->assertSame(array(5 => 'C:\Program Files'), $elphin_mysqli->select_single_column_hash($sql));
+  }
+
   private function get_mysqli() {
     global $ELPHIN_MYSQL_HOST, $ELPHIN_MYSQL_USER, $ELPHIN_MYSQL_PASSWORD, $ELPHIN_MYSQL_DATABASE;
 
