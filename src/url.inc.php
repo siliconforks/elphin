@@ -82,3 +82,39 @@ function elphin_get_url_slug($s) {
   $s = trim($s, '-');
   return $s;
 }
+
+/**
+ * Converts the array returned by parse_url() back into the original URL string.
+ * @param  array  $url  an array returned by parse_url()
+ * @return  string  the original URL
+ */
+function elphin_unparse_url(array $url) {
+  $result = '';
+  if (isset($url['scheme'])) {
+    $result .= $url['scheme'] . ':';
+  }
+  if (isset($url['host'])) {
+    $result .= '//';
+    if (isset($url['user'])) {
+      $result .= $url['user'];
+      if (isset($url['pass'])) {
+        $result .= ':' . $url['pass'];
+      }
+      $result .= '@';
+    }
+    $result .= $url['host'];
+    if (isset($url['port'])) {
+      $result .= ':' . $url['port'];
+    }
+  }
+  if (isset($url['path'])) {
+    $result .= $url['path'];
+  }
+  if (isset($url['query'])) {
+    $result .= '?' . $url['query'];
+  }
+  if (isset($url['fragment'])) {
+    $result .= '#' . $url['fragment'];
+  }
+  return $result;
+}

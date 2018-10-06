@@ -61,4 +61,26 @@ class url_test extends PHPUnit_Framework_TestCase {
     $this->assertEquals('that-will-be-123', elphin_get_url_slug('That will be $1.23'));
     $this->assertEquals('send-email-to-example-at-examplecom', elphin_get_url_slug('send email to example@example.com'));
   }
+
+  public function test_unparse_url() {
+    $url = 'http://username:password@hostname:9090/path?arg=value#anchor';
+    $parsed_url = parse_url($url);
+    $this->assertEquals($url, elphin_unparse_url($parsed_url));
+
+    $url = '//www.example.com/path?googleguy=googley';
+    $parsed_url = parse_url($url);
+    $this->assertEquals($url, elphin_unparse_url($parsed_url));
+
+    $url = '/absolute/path';
+    $parsed_url = parse_url($url);
+    $this->assertEquals($url, elphin_unparse_url($parsed_url));
+
+    $url = './relative/path';
+    $parsed_url = parse_url($url);
+    $this->assertEquals($url, elphin_unparse_url($parsed_url));
+
+    $url = 'relative/path';
+    $parsed_url = parse_url($url);
+    $this->assertEquals($url, elphin_unparse_url($parsed_url));
+  }
 }
